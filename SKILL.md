@@ -1,6 +1,6 @@
 ---
 name: next-level-readme
-description: Escribe el README de un repo con el estándar STO — banner 3:1 generado desde el diseño real del proyecto, header centrado, y secciones pensadas para que un reclutador entienda el proyecto en 90 segundos. Incluye el generador de banners (HTML → PNG, sin dependencias). Usala cuando haya que crear, reescribir o pulir el README de un repo propio, cuando el repo tenga el README default de Vite/CRA, cuando haga falta el banner o el social preview de un repo, o cuando Simon diga "hacé el readme", "pulí el readme", "generá el banner", "next-level readme".
+description: Writes the README of one of your own repos to a fixed standard, in the shape of a demo cover that a recruiter reads in 90 seconds - a 3:1 banner drawn from the project's own look (its palette, type and medium), a centered header, and only the sections that earn their place. Ships the banner generator (HTML to PNG, no dependencies). Use it to create, rewrite or polish a README, to replace a default Vite/CRA README, to make a repo's banner or social preview, or when Simon says "hacé el readme", "pulí el readme", "generá el banner", "next-level readme".
 ---
 
 # next-level-readme
@@ -154,6 +154,50 @@ del social preview sí es alto, pero ahí la imagen *es* toda la tarjeta.
 El banner se rehace cuando cambia la identidad visual del sitio. `banner.html`
 queda versionado en `docs/` justamente para eso: es la fuente, el PNG es la
 salida.
+
+### El banner es del proyecto, no de la plantilla
+
+La plantilla es un punto de partida, no el resultado. El banner tiene que
+parecer hecho por el mismo proyecto: quien ya vio el producto lo reconoce sin
+leer el título. Un banner genérico prolijo (título serif, línea dorada, grilla)
+le sirve a cualquier repo, y por eso no le dice nada a nadie de este.
+
+- **Paleta y tipografía, de la fuente real.** El `:root` del sitio, el
+  `styles.go` o el theme de una TUI, los tokens del design system. El mismo
+  fondo y el mismo acento que ve el usuario. Nunca colores elegidos porque
+  quedan lindos.
+- **El estilo sale del medio del producto.** Una TUI o un CLI se ven como una
+  terminal: fuente pixel o monospace, una línea de prompt con cursor de
+  bloque, scanlines. Una web app usa su hero, su grilla y sus componentes. Un
+  libro o un sitio editorial usa su tipografía y sus márgenes. Un 3D o un juego
+  usa su propio render.
+- **Motivos tomados del producto, no inventados.** Hay que escribir la marca
+  como la escribe la UI, poner algo de su chrome (la barra de estado, un botón,
+  las teclas del footer) y usar su vocabulario real, con los comandos tal como
+  se tipean.
+- **Si la identidad cambia, el banner se rehace.** Un banner con la paleta
+  vieja hace ver el proyecto abandonado aunque tenga commits de ayer.
+
+Ejemplo: `braingent-sto/docs/banner.html`, el banner de una TUI. Tiene un
+título en fuente pixel 5×7 dibujada celda por celda, con "brain" en tinta y
+"gent" en el acento, como lo escribe la TUI. La paleta sale de `styles.go` y
+del grafo. Abajo van un prompt `$ braingent` con cursor de bloque, las teclas
+del footer, y la barra `↓0 ↑0 · up to date` en el marco.
+
+### En Linux
+
+`make-banner.ps1` es para Windows. En Linux alcanza con un Chromium por
+comando, porque ninguna de las dos trampas de abajo existe. El Chromium de
+Playwright sirve si no hay otro, en
+`~/.cache/ms-playwright/chromium-*/chrome-linux64/chrome`:
+
+```bash
+chromium --headless=new --hide-scrollbars --window-size=1600,533 --screenshot=docs/banner.png docs/banner.html
+chromium --headless=new --hide-scrollbars --window-size=1280,640 --screenshot=docs/social.png docs/banner.html
+```
+
+Si el diseño mide algo con JS (`innerWidth`), la ventana es la medida, así que
+el mismo HTML da las dos composiciones.
 
 ### Dos trampas de Chromium headless en Windows
 

@@ -1,172 +1,79 @@
 <!doctype html>
-<html lang="es">
-<head>
+<!-- The README banner (docs/banner.png, 1600x533) and social preview
+     (docs/social.png, 1280x640): one design, measured off the window, so the
+     same file renders both. The product is a README on GitHub, so the banner
+     is drawn in GitHub's dark theme (Primer tokens) and shows what the skill
+     makes: the standard's layout, banner, badges, nav row and sections. -->
 <meta charset="utf-8">
 <title>banner</title>
-
-<!-- ══ CONFIG ═══════════════════════════════════════════════════════════
-     Editar SOLO este bloque. Los valores salen del sitio real del
-     proyecto (sus @font-face / :root), no de la imaginación.
-     ═════════════════════════════════════════════════════════════════ -->
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:ital,wght@0,400;1,400&display=swap">
-
 <style>
-:root{
-  /* paleta — copiar del :root del proyecto */
-  --bg:        #101114;
-  --bg-deep:   #08090B;
-  --ink:       #F2F3F5;
-  --muted:     #8B9099;
-  --accent:    #C9A227;
+  :root { --bg:#0d1117; --canvas:#010409; --fg:#e6edf3; --muted:#9198a1; --border:#3d444d;
+          --subtle:#151b23; --line:#262c36; --link:#4493f8; --green:#3fb950; --orange:#d97757;
+          --sans:-apple-system, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+          --mono:ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, monospace; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:100%; height:100%; overflow:hidden; }
+  body { background:var(--canvas); color:var(--fg); font-family:var(--sans);
+         display:flex; align-items:center; justify-content:center; gap:6vw; padding:0 5vw; }
+  body::before { content:""; position:absolute; inset:0; pointer-events:none;
+                 background:radial-gradient(ellipse at 72% 50%, rgba(68,147,248,.09), transparent 60%); }
 
-  /* tipografía — las mismas familias que usa el sitio */
-  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
-  --font-body:    "Inter", system-ui, sans-serif;
+  .copy { position:relative; flex:0 1 auto; min-width:0; max-width:46vw; }
+  .path { font:500 clamp(11px, min(2.5vh, 1.05vw), 16px) var(--mono); color:var(--muted); margin-bottom:2.6vh; }
+  .path b { color:var(--link); font-weight:500; }
+  h1 { font:600 clamp(30px, min(11.5vh, 4.3vw), 74px)/1.02 var(--sans); letter-spacing:-.025em; }
+  .tag { margin-top:2.4vh; color:var(--muted); font-size:clamp(13px, min(3.9vh, 1.55vw), 24px); line-height:1.35; max-width:22em; }
+  .tag em { color:var(--fg); font-style:normal; }
+  .shields { display:flex; gap:.5em; margin-top:4vh; font-size:clamp(10px, min(2.4vh, 1vw), 15px); }
+  .shield { display:inline-flex; border-radius:.3em; overflow:hidden; font:600 1em/1 var(--sans); }
+  .shield span { padding:.42em .62em; color:#fff; }
+  .shield span:first-child { background:#30363d; }
 
-  /* ajuste fino del título */
-  --title-weight: 600;
-  --title-track:  .01em;
-  --title-size:   min(5.2vw, 20vh);
-
-  /* motivo de fondo del proyecto: gridlines | none */
-  --motif: gridlines;
-
-  /* imagen de fondo opcional: url('hero.jpg') o none */
-  --hero: none;
-  --hero-opacity: .18;
-}
+  /* the README in miniature: the skill's standard, top to bottom */
+  .readme { position:relative; flex:0 0 auto; width:min(40vw, 96vh); background:var(--bg);
+            border:1px solid var(--border); border-radius:.6vw; overflow:hidden; }
+  .readme .file { display:flex; align-items:center; gap:.6em; padding:1.3vh 1.2vw; border-bottom:1px solid var(--border);
+                  background:var(--subtle); font:600 clamp(10px, min(2.3vh, .95vw), 14px) var(--sans); }
+  .readme .file i { width:.9em; height:1.05em; border:1.5px solid var(--muted); border-radius:2px; }
+  .readme .body { padding:2.2vh 1.6vw 2.6vh; display:flex; flex-direction:column; gap:1.5vh; }
+  .ban { aspect-ratio:3/1; border-radius:.4vw; position:relative; overflow:hidden;
+         background:linear-gradient(120deg, #1b2a44, #0f1b2e 55%, #2a1d17); display:grid; place-items:center; }
+  .ban::after { content:"3:1"; position:absolute; right:.6em; bottom:.4em; font:500 clamp(8px, min(1.8vh, .75vw), 11px) var(--mono); color:rgba(230,237,243,.45); }
+  .ban b { width:42%; height:16%; border-radius:99px; background:rgba(230,237,243,.82); }
+  .row { display:flex; gap:.45vw; justify-content:center; }
+  .row u { width:3.6vw; height:1.6vh; border-radius:3px; background:#30363d; text-decoration:none; }
+  .row u:nth-child(1) { background:linear-gradient(90deg, #30363d 45%, var(--orange) 45%); }
+  .row u:nth-child(2) { background:linear-gradient(90deg, #30363d 45%, var(--link) 45%); }
+  .row u:nth-child(3) { background:linear-gradient(90deg, #30363d 45%, var(--green) 45%); }
+  .nav { justify-content:center; font:500 clamp(8px, min(1.9vh, .8vw), 12px) var(--sans); color:var(--link); gap:.8vw; }
+  .nav span:nth-child(even) { color:var(--muted); }
+  .p { height:.9vh; border-radius:99px; background:var(--line); }
+  h2 { font:600 clamp(10px, min(2.6vh, 1.1vw), 16px) var(--sans); padding-bottom:.6vh; border-bottom:1px solid var(--line); margin-top:.6vh; }
+  .li { display:flex; align-items:center; gap:.6vw; }
+  .li::before { content:""; width:.5vh; height:.5vh; border-radius:50%; background:var(--muted); flex:none; }
+  .li i { height:.9vh; border-radius:99px; background:var(--line); display:block; }
 </style>
-
-<!-- Textos: si alguno sobra, borrar el elemento entero, no dejarlo vacío. -->
-<script>
-  const EYEBROW = "Claude Code skill";                                   /* opcional, ej. "Web · 14 secciones" */
-  const TITLE = "next-level-readme";
-  const TAGLINE = "El README de un repo de portfolio es la portada de una demo";
-  const FOOTNOTE = "Banner 3:1 + social preview, sin dependencias";                                   /* opcional, ej. dominio del deploy */
-</script>
-
-<!-- ══ /CONFIG ══════════════════════════════════════════════════════ -->
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden}
-
-body{
-  background:var(--bg);
-  color:var(--ink);
-  display:flex;align-items:center;justify-content:center;
-  position:relative;
-  -webkit-font-smoothing:antialiased;
-}
-
-/* hero opcional */
-body::before{
-  content:"";position:absolute;inset:0;
-  background-image:var(--hero);
-  background-size:cover;background-position:center;
-  opacity:var(--hero-opacity);
-  filter:grayscale(.4);
-}
-
-/* motivo estructural + viñeta: hunde los bordes para que el texto respire */
-body::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(255,255,255,.045) 0 1px, transparent 1px 8.3333%),
-    radial-gradient(100% 78% at 50% 44%,
-      color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 62%),
-    radial-gradient(120% 92% at 50% 45%,
-      transparent 34%, color-mix(in srgb, var(--bg-deep) 92%, black) 100%);
-}
-:root[style*="--motif: none"] body::after{background:radial-gradient(120% 90% at 50% 45%,transparent 30%,var(--bg-deep) 100%)}
-
-.plate{position:relative;z-index:1;text-align:center;padding:0 6vw;max-width:88%}
-
-.eyebrow{
-  font-family:var(--font-body);
-  font-size:min(1.15vw,2.6vh);
-  letter-spacing:.34em;text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:min(2.6vw,5vh);
-}
-
-h1{
-  font-family:var(--font-display);
-  font-weight:var(--title-weight);
-  font-size:var(--title-size);
-  letter-spacing:var(--title-track);
-  line-height:1.02;
-  text-indent:var(--title-track);          /* compensa el tracking del último glifo */
-  white-space:nowrap;
-}
-
-/* filete: la marca de agua del sistema, no un separador cualquiera */
-.rule{
-  width:min(7vw,18vh);height:1px;
-  background:linear-gradient(90deg,transparent,var(--accent) 22%,var(--accent) 78%,transparent);
-  margin:min(3.4vw,7vh) auto;
-  position:relative;
-}
-.rule::before,.rule::after{
-  content:"";position:absolute;top:50%;
-  width:3px;height:3px;border-radius:50%;
-  background:var(--accent);transform:translateY(-50%) rotate(45deg);
-}
-.rule::before{left:-9px}
-.rule::after{right:-9px}
-
-.tagline{
-  font-family:var(--font-body);
-  font-style:italic;
-  font-size:min(1.55vw,5.2vh);
-  letter-spacing:.085em;
-  color:var(--muted);
-}
-
-.footnote{
-  position:absolute;z-index:1;
-  bottom:min(3vw,5vh);left:0;right:0;
-  text-align:center;
-  font-family:var(--font-body);
-  font-size:min(1vw,2.2vh);
-  letter-spacing:.26em;text-transform:uppercase;
-  color:color-mix(in srgb, var(--muted) 62%, transparent);
-}
-
-/* El social preview (2:1) se recorta en las tarjetas: GitHub pide ~80px de zona
-   segura. El banner del README (3:1) no se recorta y conserva su composicion. */
-@media (max-aspect-ratio: 5/2){ .footnote{bottom:15%} }
-</style>
-</head>
-<body>
-  <div class="plate">
-    <p class="eyebrow"></p>
-    <h1></h1>
-    <div class="rule"></div>
-    <p class="tagline"></p>
+<div class="copy">
+  <div class="path">SimonOcampo1 / <b>next-level-readme</b></div>
+  <h1>next-level-readme</h1>
+  <p class="tag">A portfolio README is <em>the cover of a demo</em>, not documentation.</p>
+  <div class="shields">
+    <span class="shield"><span>Claude Code</span><span style="background:var(--orange)">skill</span></span>
+    <span class="shield"><span>banner</span><span style="background:var(--link)">3:1</span></span>
+    <span class="shield"><span>dependencies</span><span style="background:var(--green)">0</span></span>
   </div>
-  <p class="footnote"></p>
-
-<script>
-  const set = (sel, txt) => {
-    const el = document.querySelector(sel);
-    txt ? el.textContent = txt : el.remove();
-  };
-  set(".eyebrow",  EYEBROW);
-  set("h1",        TITLE);
-  set(".tagline",  TAGLINE);
-  set(".footnote", FOOTNOTE);
-
-  /* Un título largo no debe partirse ni desbordar: se encoge hasta entrar. */
-  const h1 = document.querySelector("h1");
-  if (h1) {
-    const room = () => h1.scrollWidth <= h1.parentElement.clientWidth;
-    let size = parseFloat(getComputedStyle(h1).fontSize);
-    while (!room() && size > 12) h1.style.fontSize = (size -= 2) + "px";
-  }
-</script>
-</body>
-</html>
+</div>
+<div class="readme">
+  <div class="file"><i></i>README.md</div>
+  <div class="body">
+    <div class="ban"><b></b></div>
+    <div class="row"><u></u><u></u><u></u></div>
+    <div class="row nav"><span>Features</span><span>•</span><span>Stack</span><span>•</span><span>Setup</span></div>
+    <div class="p" style="width:96%"></div>
+    <div class="p" style="width:78%"></div>
+    <h2>Features</h2>
+    <div class="li"><i style="width:84%"></i></div>
+    <div class="li"><i style="width:70%"></i></div>
+    <div class="li"><i style="width:77%"></i></div>
+  </div>
+</div>

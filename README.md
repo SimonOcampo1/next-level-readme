@@ -4,91 +4,79 @@
 
 <p align="center">
   <img alt="Claude Code" src="https://img.shields.io/badge/Claude_Code-D97757?style=flat-square&logo=anthropic&logoColor=white">
-  <img alt="PowerShell" src="https://img.shields.io/badge/PowerShell-5391FE?style=flat-square&logo=powershell&logoColor=white">
   <img alt="HTML5" src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white">
-  <img alt="Sin dependencias" src="https://img.shields.io/badge/dependencias-0-1F2122?style=flat-square">
+  <img alt="Chromium" src="https://img.shields.io/badge/Chromium_headless-4285F4?style=flat-square&logo=googlechrome&logoColor=white">
+  <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-0-1F2122?style=flat-square">
 </p>
 
 <p align="center">
-  <a href="#qué-hace"><b>Qué hace</b></a> &nbsp;•&nbsp;
-  <a href="#el-estándar">El estándar</a> &nbsp;•&nbsp;
-  <a href="#el-generador-de-banners">Banners</a> &nbsp;•&nbsp;
-  <a href="#instalación">Instalación</a> &nbsp;•&nbsp;
-  <a href="#decisiones">Decisiones</a>
+  <a href="#what-it-does"><b>What it does</b></a> &nbsp;•&nbsp;
+  <a href="#the-standard">The standard</a> &nbsp;•&nbsp;
+  <a href="#the-banner">The banner</a> &nbsp;•&nbsp;
+  <a href="#install">Install</a> &nbsp;•&nbsp;
+  <a href="#decisions">Decisions</a>
 </p>
 
-Una skill de Claude Code que escribe el README de un repo propio con un estándar fijo, y le genera el banner desde la paleta y las tipografías del proyecto real. Parte de una premisa incómoda: quien abre el repo de tu portfolio no lo va a mantener ni forkear — lo mira treinta segundos y decide si el proyecto vale algo. Todo el estándar sale de ahí.
+A Claude Code skill that writes the README of a repo of your own to a fixed standard and draws its banner from the project's own look. It starts from an uncomfortable premise: whoever opens a portfolio repo is not going to maintain it or fork it. They look for thirty seconds and decide whether the project is worth anything. The whole standard follows from that.
 
-## Qué hace
+## What it does
 
-- **Escribe el README leyendo el código, no el README viejo.** Los detalles que ningún README genérico tiene son los que convencen: que el buscador necesita servidor porque hace `fetch` del índice, que el pipeline corre sin GPU en modo solo-retrieval.
-- **Genera el banner desde la identidad real del proyecto** — paleta y fuentes copiadas del `:root` del sitio, no inventadas.
-- **Saca los dos tamaños que hacen falta:** `banner.png` 1600×533 para el header y `social.png` 1280×640 para el *social preview* del repo, que es la imagen que aparece al compartir el link.
-- **Tiene una lista explícita de lo que no va** y por qué: Contributing, Roadmap, tabla de contenidos, badges de `build passing`, el título repetido bajo el banner.
-- **Prohíbe el vocabulario que dispara los detectores de slop** — *seamless, production-ready, robust, cutting-edge*. Un adjetivo que no se puede verificar mirando el repo, sobra.
+- **Writes the README from the code, not from the old README.** The details no generic README has are the ones that convince: that the search needs a server because it `fetch`es its index, that the pipeline runs without a GPU in retrieval-only mode.
+- **Draws a banner that belongs to the project.** Palette and type come from the real source (a site's `:root`, a TUI's theme, the design system's tokens), and the style comes from the product's medium: a TUI looks like a terminal, a web app like its own hero, a book like its pages.
+- **Renders both sizes from one HTML file:** `banner.png` at 1600×533 for the header and `social.png` at 1280×640 for the repo's social preview, the image that shows when the link is shared.
+- **Keeps an explicit list of what stays out**, with the reason: Contributing, Roadmap, a table of contents, `build passing` badges, the title repeated under the banner.
+- **Bans the words that trip slop detectors:** *seamless, production-ready, robust, cutting-edge*. An adjective you cannot check by looking at the repo goes.
 
-## El estándar
+## The standard
 
 ```
-BANNER 3:1                    el título vive adentro — no se repite abajo
-badges                        pegados al banner, solo stack
-nav row                       Demo • Características • Stack • Estructura • Instalación
+3:1 BANNER                    the title lives inside it, never repeated below
+badges                        right under the banner, stack only
+nav row                       Demo • Features • Stack • Structure • Setup
 ───────────────────────────
-intro                         2-3 frases: qué es, para quién, por qué existe
-## Características            4-6 bullets, cada uno con el detalle técnico real
-## Stack                      tabla: capa → tecnología → por qué esa
-## Estructura                 árbol comentado, solo lo que importa
-## Puesta en marcha           bash copiable + la nota del gotcha real
-## Decisiones                 opcional, 2-3 líneas de lo no obvio
+intro                         2-3 sentences: what it is, who for, why it exists
+## Features                   4-6 bullets, each with the real technical detail
+## Stack                      table: layer → technology → why that one
+## Structure                  annotated tree, only what matters
+## Setup                      copyable bash plus the real gotcha
+## Decisions                  optional, 2-3 lines of the non-obvious
 ```
 
-Techo de lectura: 90 segundos. Si no entra, la que sobra es Decisiones, no Características.
+Reading budget: 90 seconds. If it does not fit, Decisions goes, not Features. The README is written in the project's language.
 
-El molde es [Markdownify](https://github.com/amitmerchant1990/electron-markdownify) —una app presentándose a alguien que la va a mirar, no a mantenerla—, con el banner-que-contiene-el-título de [SDVersion](https://github.com/sebyddd/SDVersion). De [Best-README-Template](https://github.com/othneildrew/Best-README-Template) se toma el header centrado y se descarta el resto: Roadmap y Contributing son relleno en un repo que nadie va a forkear.
+The mold is [Markdownify](https://github.com/amitmerchant1990/electron-markdownify), an app introducing itself to someone who will look at it rather than maintain it, with the banner-that-holds-the-title of [SDVersion](https://github.com/sebyddd/SDVersion). From [Best-README-Template](https://github.com/othneildrew/Best-README-Template) it takes the centered header and leaves the rest: Roadmap and Contributing are filler in a repo nobody will fork.
 
-## El generador de banners
+## The banner
 
-`banner.html` es el diseño, `make-banner.ps1` lo renderiza. Sin dependencias nuevas: usa el Chromium que ya está instalado.
+`banner.html` is the design and a headless Chromium renders it. Nothing new to install: it uses the browser already there.
 
-```powershell
-# 1. copiar la plantilla al repo
-Copy-Item ~\.claude\skills\next-level-readme\banner.html docs\banner.html
+```bash
+# 1. copy the template into the repo, then make it the project's own
+cp ~/.claude/skills/next-level-readme/banner.html docs/banner.html
 
-# 2. editar SOLO el bloque CONFIG de arriba: paleta, fuentes, título, tagline
-
-# 3. renderizar
-pwsh -File ~\.claude\skills\next-level-readme\make-banner.ps1 -Src docs\banner.html
+# 2. render both sizes (Linux / macOS)
+chromium --headless=new --hide-scrollbars --window-size=1600,533 --screenshot=docs/banner.png docs/banner.html
+chromium --headless=new --hide-scrollbars --window-size=1280,640 --screenshot=docs/social.png docs/banner.html
 ```
 
-`docs/banner.html` queda versionado en el repo: es la fuente, el PNG es la salida. El banner de este mismo repo salió de ahí.
+On Windows, `make-banner.ps1` does the same and works around two Chromium traps there. `docs/banner.html` stays in the repo as the source, and the PNGs are its output. This repo's banner is drawn in GitHub's own dark theme, because what the skill makes is a README on GitHub.
 
-> [!IMPORTANT]
-> Brave queda fuera de la lista de navegadores: en headless se cuelga sin escribir nada ni salir. El script usa Chrome o Edge, y Edge viene con Windows.
-
-## Instalación
+## Install
 
 ```bash
 git clone https://github.com/SimonOcampo1/next-level-readme.git ~/.claude/skills/next-level-readme
 ```
 
-En Windows, la ruta es `C:\Users\<vos>\.claude\skills\next-level-readme`. Después, dentro de Claude Code:
+Then, inside Claude Code, `/next-level-readme`. It also triggers on requests like "write the README", "polish the README" or "make the banner".
 
-```
-/next-level-readme
-```
+## Decisions
 
-También se dispara sola cuando el pedido es del tipo "hacé el readme", "pulí el readme" o "generá el banner".
+**3:1, not 16:9.** A 16:9 banner at README width is ~506 px tall: it eats the whole first screen and pushes Features below the fold. The social preview is 2:1, but there the image *is* the whole card.
 
-## Decisiones
-
-**3:1 y no 16:9.** Un banner 16:9 al ancho del README mide ~506 px de alto: se come el primer scroll entero y empuja las Características abajo del fold. El social preview sí es 2:1, pero ahí la imagen *es* toda la tarjeta.
-
-**Un `<p align="center">` por bloque, sin líneas en blanco adentro.** Envolver todo en un `<div align="center">` también funciona en GitHub, pero una línea en blanco cierra el bloque HTML en CommonMark estricto: los previewers locales escupen las etiquetas crudas. Y el preview local no es el renderer de destino — se verifica contra el real sin pushear nada:
+**One `<p align="center">` per block, with no blank lines inside.** Wrapping everything in one `<div align="center">` works on GitHub, but a blank line closes an HTML block in strict CommonMark and local previewers print the raw tags. The local preview is not the target renderer, so check against the real one without pushing:
 
 ```bash
 gh api -X POST markdown -f mode=gfm -f text="$(cat README.md)" | head -40
 ```
 
-**Dos trampas de Chromium headless en Windows**, las dos resueltas dentro del script: los espacios en la ruta rompen `--screenshot` en silencio (parte el argumento, no escribe nada, exit code 0), y un GUI app no bloquea la shell, así que hace falta `Start-Process -Wait`. Por eso el script es PowerShell y no bash.
-
-**GIF descartado.** Necesita ffmpeg y captura de frames. Un PNG que convenza vale más que un GIF que no.
+**No GIF.** It needs ffmpeg and frame capture. A PNG that convinces beats a GIF that does not.
